@@ -182,13 +182,6 @@ func (l *Light) Verify(block Block) (bool) {
 	return ok
 }
 
-func (l *Light) ComputeMixDigest(blockNum uint64, hashNoNonce common.Hash, nonce uint64) common.Hash {
-	cache := l.getCache(blockNum)
-	dagSize := C.ethash_get_datasize(C.uint64_t(blockNum))
-	_, mixDigest, _ := cache.compute(uint64(dagSize), hashNoNonce, nonce)
-	return mixDigest
-}
-
 func h256ToHash(in C.ethash_h256_t) common.Hash {
 	return *(*common.Hash)(unsafe.Pointer(&in.b))
 }
