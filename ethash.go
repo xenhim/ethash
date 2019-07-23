@@ -124,7 +124,9 @@ type Light struct {
 	NumCaches int // Maximum number of caches to keep before eviction (only init, don't modify)
 }
 func (l *Light) Compute(blockNum uint64, hashNoNonce common.Hash, nonce uint64) (ok bool, mixDigest common.Hash, result common.Hash) {
-	return l.compute(blockNum, hashNoNonce, nonce)
+	cache := l.getCache(blockNum)
+	dagSize := C.ethash_get_datasize(C.uint64_t(blockNum))
+	return cache.compute(uint64(dagSize), block.HashNoNonce(), block.Nonce())
 }
 
 // Verify checks whether the share's nonce is valid.
