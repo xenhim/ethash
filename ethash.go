@@ -126,7 +126,7 @@ type Light struct {
 func (l *Light) Compute(blockNum uint64, hashNoNonce common.Hash, nonce uint64) (ok bool, mixDigest common.Hash, result common.Hash) {
 	cache := l.getCache(blockNum)
 	dagSize := C.ethash_get_datasize(C.uint64_t(blockNum))
-	return cache.compute(uint64(dagSize), block.HashNoNonce(), block.Nonce())
+	return cache.compute(uint64(dagSize), hashNoNonce, nonce)
 }
 
 // Verify checks whether the share's nonce is valid.
